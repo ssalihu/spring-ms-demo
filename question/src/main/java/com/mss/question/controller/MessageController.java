@@ -1,0 +1,21 @@
+package com.mss.question.controller;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RefreshScope
+@RestController
+class MessageController {
+
+  @Value("${message:Hello default}")
+  private String message;
+
+  //curl localhost:8090/actuator/refresh -d {} -H "Content-Type: application/json"
+  // Post to /actuator/refresh
+  @RequestMapping("/message")
+  String getMessage() {
+    return this.message;
+  }
+}
