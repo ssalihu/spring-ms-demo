@@ -1,0 +1,22 @@
+sudo: required
+services:
+    - docker
+env:
+    global:
+        - SHA=$(git rev-parse HEAD)
+        - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+before_install:
+    - echo "Build something for test only"
+script:
+    - echo "Run test from before_install build"
+after_success:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin    
+jobs:
+    include:
+        - stage: build and stage docker images
+          script: 
+            - bash ./build-images.sh
+            - bash ./stage-images.sh
+        - stage: test docker image
+          script:
+            - echo "nothing to do now"
