@@ -1,5 +1,5 @@
 # spring-ms-demo
-Spring microservice demo. Spring cloud features such as Eureka, Cloud Config, Zipkin has been implemented for learning
+Spring microservice demo. Spring cloud features such as Eureka, Cloud Config, Zipkin/Sleuth has been implemented for learning
 
 ![Alt text](/spring-ms-demo.png?raw=true "System Diagram")
 
