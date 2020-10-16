@@ -41,4 +41,6 @@ So if you look at the docker-compose.yml file, the 3 core infrastructure service
 
 ```
 INFRASTRUCUTRE_SERVER=HOST_NAME_WHERE_INFRA_SERVICES_ARE_RUNNING docker-compose up
+
+eg:- INFRASTRUCUTRE_SERVER=192.168.1.129 docker-compose up
 ```
