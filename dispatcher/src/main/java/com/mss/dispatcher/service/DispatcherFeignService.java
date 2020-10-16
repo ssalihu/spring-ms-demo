@@ -6,11 +6,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.mss.question.data.Answer;
 import com.mss.question.data.FinalResponse;
@@ -20,22 +18,17 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RefreshScope
 @Service
-public class DispatcherService {
+public class DispatcherFeignService {
+
 	@Autowired
-	private RestTemplate restTemplate;
+	private RandomAPIClient feignRandomService;
 
-	@Value("${random.service.endpoint}")
-	private String randomServiceEndpoint;
+	@Autowired
+	private QuestionAPIClient feignQuestionService;
 
-	@Value("${question.service.endpoint}")
-	private String questionServiceEndpoint;
-	
-	@Value("${answer.service.endpoint}")
-	private String answerServiceEndpoint;
-	
-	@Value("${random.service.max.num}")
-	private String randomMax;
-	
+	@Autowired
+	private AnswerAPIClient feignAnswerService;
+
 	@HystrixCommand(fallbackMethod = "reliable")
 	public FinalResponse getQuestionSet() {
 
@@ -44,7 +37,7 @@ public class DispatcherService {
 		FinalResponse response = null;
 
 		try {
-			allFutures.add(callRandomService());
+			allFutures.add(callFeignBasedRandomApiCall());
 			CompletableFuture.allOf(allFutures.toArray(new CompletableFuture[0])).join();
 			randResponse = allFutures.get(0).get();
 			CompletableFuture<FinalResponse> finalResponse = questionAndAnswer(
@@ -67,8 +60,7 @@ public class DispatcherService {
 		CompletableFuture<Question> questionFuture = CompletableFuture.supplyAsync(new Supplier<Question>() {
 			@Override
 			public Question get() {
-				String localSlowServiceEndpoint = questionServiceEndpoint.concat(index);
-				Question responseObj = restTemplate.getForObject(localSlowServiceEndpoint, Question.class);
+				Question responseObj = feignQuestionService.getQuestion(index);
 				return responseObj;
 			}
 		});
@@ -77,8 +69,7 @@ public class DispatcherService {
 			public Answer get() {
 				Answer responseObj = new Answer();
 				try {
-					String localSlowServiceEndpoint = answerServiceEndpoint.concat(index);
-					responseObj = restTemplate.getForObject(localSlowServiceEndpoint, Answer.class);
+					responseObj = feignAnswerService.getAnswer(index);
 				} catch (Exception e) {
 					// throw new IllegalStateException(e);
 					e.printStackTrace();
@@ -104,9 +95,8 @@ public class DispatcherService {
 	}
 
 	@Async
-	public CompletableFuture<RandomResponse> callRandomService() {
-		String localSlowServiceEndpoint = randomServiceEndpoint.concat(randomMax);//"http://random-ms/random/10";
-		RandomResponse responseObj = restTemplate.getForObject(localSlowServiceEndpoint, RandomResponse.class);
+	public CompletableFuture<RandomResponse> callFeignBasedRandomApiCall() {
+		RandomResponse responseObj = feignRandomService.getSomeRandomNumber();
 		return CompletableFuture.completedFuture(responseObj);
 	}
 }
