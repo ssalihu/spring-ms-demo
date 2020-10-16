@@ -27,9 +27,8 @@ public class DispatcherController {
     
 	@GetMapping("/question")
 	public ResponseEntity<FinalResponse> getQuestion() throws Exception {
-		LOG.info("Inside method2");
+		LOG.info("Get a question");
 		return new ResponseEntity<FinalResponse>(dispatcherService.getRandomNumber(), HttpStatus.OK);
-		//return dispatcherService.getRandomNumber();
 	}
 	@Bean
 	public Sampler defaultSampler() {

@@ -1,0 +1,59 @@
+version: '3.8'
+services:          
+    random-service:
+        image: '1after/random:latest'
+        restart: always
+        ports:
+             - '10091:8091'
+        environment:
+            - EUREKA_HOST=192.168.86.28
+            - EUREKA_PORT=8762    
+            - CONFIG_HOST=192.168.86.28
+            - CONFIG_PORT=10092
+            - ZIPKIN_HOST=192.168.86.28
+            - ZIPKIN_PORT=9412                             
+        expose:
+            - '8091'
+    question-service:
+        image: '1after/question:latest'
+        restart: always
+        ports:
+                - '10090:8090'
+        environment:
+            - EUREKA_HOST=192.168.86.28
+            - EUREKA_PORT=8762        
+            - CONFIG_HOST=192.168.86.28
+            - CONFIG_PORT=10092
+            - ZIPKIN_HOST=192.168.86.28
+            - ZIPKIN_PORT=9412              
+        expose:
+            - '8090'
+    answer-service:
+        image: '1after/answer:latest'
+        restart: always
+        ports:
+                - '10093:8093'
+        environment:
+            - EUREKA_HOST=192.168.86.28
+            - EUREKA_PORT=8762        
+            - CONFIG_HOST=192.168.86.28
+            - CONFIG_PORT=10092
+            - ZIPKIN_HOST=192.168.86.28
+            - ZIPKIN_PORT=9412                 
+        expose:
+            - '8093'
+    dispatcher-service:
+        image: '1after/dispatcher:latest'
+        restart: always
+        ports:
+                - '10094:8094'
+        environment:
+            - EUREKA_HOST=192.168.86.28
+            - EUREKA_PORT=8762        
+            - CONFIG_HOST=192.168.86.28
+            - CONFIG_PORT=10092
+            - ZIPKIN_HOST=192.168.86.28
+            - ZIPKIN_PORT=9412  
+        expose:
+            - '8094'
+                                             

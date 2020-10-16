@@ -1,0 +1,31 @@
+version: '3.8'
+services:          
+    config-server:
+        image: '1after/config-server:latest'
+        restart: always
+        ports:
+            - '10092:8092'
+        environment:
+            - EUREKA_HOST=eureka
+            - EUREKA_PORT=8761        
+        expose:
+            - '8092'
+            - '8888'
+        depends_on: 
+            - eureka
+    eureka:
+        image: '1after/eureka-service:latest'
+        restart: always
+        ports:
+            - '8762:8761'
+        expose:
+            - '8761'
+        depends_on: 
+            - zipkin      
+    zipkin:
+        image: 'openzipkin/zipkin:latest'
+        restart: always
+        ports:
+            - '9412:9411'
+        expose:
+            - '9411'            
