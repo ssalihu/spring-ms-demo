@@ -54,6 +54,8 @@ services:
             - CONFIG_PORT=10092
             - ZIPKIN_HOST=${INFRASTRUCUTRE_SERVER}
             - ZIPKIN_PORT=9412  
+            - JAVA_OPTS=
+                -Dspring.profiles.active=production            
         expose:
             - '8094'
                                              
