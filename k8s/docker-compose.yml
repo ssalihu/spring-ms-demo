@@ -6,11 +6,11 @@ services:
         ports:
              - '10091:8091'
         environment:
-            - EUREKA_HOST=192.168.86.28
+            - EUREKA_HOST=${INFRASTRUCUTRE_SERVER}
             - EUREKA_PORT=8762    
-            - CONFIG_HOST=192.168.86.28
+            - CONFIG_HOST=${INFRASTRUCUTRE_SERVER}
             - CONFIG_PORT=10092
-            - ZIPKIN_HOST=192.168.86.28
+            - ZIPKIN_HOST=${INFRASTRUCUTRE_SERVER}
             - ZIPKIN_PORT=9412                             
         expose:
             - '8091'
@@ -20,11 +20,11 @@ services:
         ports:
                 - '10090:8090'
         environment:
-            - EUREKA_HOST=192.168.86.28
+            - EUREKA_HOST=${INFRASTRUCUTRE_SERVER}
             - EUREKA_PORT=8762        
-            - CONFIG_HOST=192.168.86.28
+            - CONFIG_HOST=${INFRASTRUCUTRE_SERVER}
             - CONFIG_PORT=10092
-            - ZIPKIN_HOST=192.168.86.28
+            - ZIPKIN_HOST=${INFRASTRUCUTRE_SERVER}
             - ZIPKIN_PORT=9412              
         expose:
             - '8090'
@@ -34,11 +34,11 @@ services:
         ports:
                 - '10093:8093'
         environment:
-            - EUREKA_HOST=192.168.86.28
+            - EUREKA_HOST=${INFRASTRUCUTRE_SERVER}
             - EUREKA_PORT=8762        
-            - CONFIG_HOST=192.168.86.28
+            - CONFIG_HOST=${INFRASTRUCUTRE_SERVER}
             - CONFIG_PORT=10092
-            - ZIPKIN_HOST=192.168.86.28
+            - ZIPKIN_HOST=${INFRASTRUCUTRE_SERVER}
             - ZIPKIN_PORT=9412                 
         expose:
             - '8093'
@@ -48,11 +48,11 @@ services:
         ports:
                 - '10094:8094'
         environment:
-            - EUREKA_HOST=192.168.86.28
+            - EUREKA_HOST=${INFRASTRUCUTRE_SERVER}
             - EUREKA_PORT=8762        
-            - CONFIG_HOST=192.168.86.28
+            - CONFIG_HOST=${INFRASTRUCUTRE_SERVER}
             - CONFIG_PORT=10092
-            - ZIPKIN_HOST=192.168.86.28
+            - ZIPKIN_HOST=${INFRASTRUCUTRE_SERVER}
             - ZIPKIN_PORT=9412  
         expose:
             - '8094'
