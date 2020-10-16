@@ -1,5 +1,10 @@
 ### How to run this
 
+There are 2 components
+
+* Infrastructure services
+* Application services
+
 ## Run infrastructure
 
 The below will setup the 3 services 
@@ -35,5 +40,5 @@ these microservices will also be traced using the Zipkin server.
 So if you look at the docker-compose.yml file, the 3 core infrastructure services are configured.
 
 ```
-docker-compose up
+INFRASTRUCUTRE_SERVER=HOST_NAME_WHERE_INFRA_SERVICES_ARE_RUNNING docker-compose up
 ```
