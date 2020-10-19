@@ -29,19 +29,18 @@ public class DispatcherPingController {
 	@Autowired
 	private AnswerAPIClient feignAnswerService;
 	
-	Random rand = new Random(10);
-
-	
 	@GetMapping("/random")
 	public ResponseEntity<RandomResponse> getRandom() throws Exception {
 		return new ResponseEntity<RandomResponse>(feignRandomService.getSomeRandomNumber(), HttpStatus.OK);
 	}
 	@GetMapping("/question")
 	public ResponseEntity<Question> getQuestion() throws Exception {
+		Random rand = new Random(10);
 		return new ResponseEntity<Question>(feignQuestionService.getQuestion(String.valueOf(rand.nextInt())), HttpStatus.OK);
 	}
 	@GetMapping("/answer")
 	public ResponseEntity<Answer> getAnswer() throws Exception {
+		Random rand = new Random(10);
 		return new ResponseEntity<Answer>(feignAnswerService.getAnswer(String.valueOf(rand.nextInt())), HttpStatus.OK);
 	}
 }

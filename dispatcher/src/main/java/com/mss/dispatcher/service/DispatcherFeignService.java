@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.scheduling.annotation.Async;
@@ -19,6 +21,8 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @RefreshScope
 @Service
 public class DispatcherFeignService {
+
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private RandomAPIClient feignRandomService;
@@ -97,6 +101,7 @@ public class DispatcherFeignService {
 	@Async
 	public CompletableFuture<RandomResponse> callFeignBasedRandomApiCall() {
 		RandomResponse responseObj = feignRandomService.getSomeRandomNumber();
+		LOG.info("Response from randomizer is: ",responseObj.getNumber());
 		return CompletableFuture.completedFuture(responseObj);
 	}
 }
